@@ -1,5 +1,3 @@
-
-
 # Reads the file for the next elf
 def read_in_elf():
     filepath = './inputs/day-1.txt'
