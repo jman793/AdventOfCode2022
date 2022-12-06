@@ -16,10 +16,22 @@ hand_letter_opp = {
     'C': 'SCISSORS'
 }
 
-hand_letter_you = {
-    'X': 'ROCK',
-    'Y': 'PAPER',
-    'Z': 'SCISSORS'
+desired_outcome = {
+    'X': 'LOSE',
+    'Y': 'DRAW',
+    'Z': 'WIN'
+}
+
+hand_to_win = {
+    'ROCK': 'PAPER',
+    'PAPER': 'SCISSORS',
+    'SCISSORS': 'ROCK'
+}
+
+hand_to_lose = {
+    'ROCK': 'SCISSORS',
+    'PAPER': 'ROCK',
+    'SCISSORS': 'PAPER'
 }
 
 # reads in one game of RPS
@@ -31,25 +43,19 @@ def read_in_game():
         ctr = 0
         while line:
             ctr +=1
-            [opp_move_code, your_move_code] = line.split()
+            [opp_move_code, your_instruction] = line.split()
             opp_move = hand_letter_opp[opp_move_code]
-            your_move = hand_letter_you[your_move_code]
-            did_win = did_you_win(opp_move, your_move)
-            yield score_hand[your_move] + outcome_score[did_win]
+            your_move = hand_to_throw(opp_move, your_instruction)
+            yield score_hand[your_move] + outcome_score[desired_outcome[your_instruction]]
             line = fp.readline()
-            
-            
-# returns string based on the outcome        
-def did_you_win(opp_move, your_move):
-    if opp_move == your_move:
-        return 'DRAW'
-    elif your_move == 'ROCK' and opp_move == 'SCISSORS':
-        return 'WIN'
-    elif your_move == 'SCISSORS' and opp_move == 'PAPER':
-        return 'WIN'
-    elif your_move == 'PAPER' and opp_move == 'ROCK':
-        return 'WIN'
-    else:
-        return 'LOSE'
+                
+def hand_to_throw(opp_move, your_instruction):
+    match your_instruction:
+        case 'Y':
+            return opp_move
+        case 'X':
+            return hand_to_lose[opp_move]
+        case 'Z':
+            return hand_to_win[opp_move]
     
 print(sum(read_in_game())) 
