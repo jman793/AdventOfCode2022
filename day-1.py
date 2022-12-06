@@ -12,7 +12,6 @@ def read_in_elf():
                 calories_total+=int(line)
             line = fp.readline()
 
-max_calories = 0
-for calories in read_in_elf():
-    max_calories = max(max_calories, calories)
-print(max_calories)
+calories_per_elf = [calories for calories in read_in_elf()]
+calories_per_elf.sort(reverse=True)
+print(sum([calories_per_elf[0], calories_per_elf[1], calories_per_elf[2]]))
